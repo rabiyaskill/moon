@@ -1,0 +1,76 @@
+#include<stdio.h>
+
+int  s,c[100][100],n;
+float optimum=999,sum;
+
+void swap(int A[ ], int i, int j)
+{
+  int t;
+  t = A[i];
+  A[i] = A[j];
+  A[j] = t;
+}
+
+
+void TSP(int A[ ], int n, int i)
+{
+ int j,sum,k;
+ if (i == n)
+ {
+   if(A[0]==s)
+   {
+      for (j=0; j<n; j++)
+	 printf ("%d ", A[j]);
+      sum = 0;
+      for( k=0; k<n-1; k++)
+	 sum = sum + c[A[k]][A[k+1]];
+
+      sum = sum + c[A[n-1]][s];
+      printf("sum = %d\n",sum);
+      if (sum < optimum)
+	optimum = sum;
+   }
+  }
+  else
+    for (j=i; j<n; j++)
+    {
+       swap (A, i, j);
+       TSP (A, n, i+1);
+       swap (A, i, j);
+     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void main ( )
+{
+   int n, A[100],i,j;
+   clrscr();
+   printf("Enter number of cities (n) : ");
+   scanf("%d",&n);
+
+   for (i = 0; i < n; i++)
+       A[i] = i+1;
+
+   printf("Enter cost matrix\n");
+       for(i=1;  i<=n;  i++)
+	  for(j=1;  j<=n;  j++)
+	     scanf("%d", &c[i][j]);
+
+   printf("\nEnter source :");
+   scanf("%d",&s);
+
+   TSP(A, n, 0);
+
+   printf("\nOptimum solution is=%f\n",optimum);
+   getch();
+}
